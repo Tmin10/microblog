@@ -1,0 +1,8 @@
+---
+-   hosts: all
+    tasks:
+        -   name: Create a data container
+            docker_container:
+                name: elassandra
+                image: strapdata/elassandra
+                ports: 9042:9042
