@@ -4,9 +4,8 @@ CREATE KEYSPACE IF NOT EXISTS microblog
 USE microblog;
 
 CREATE TABLE IF NOT EXISTS blog_records (
-	record_id uuid,
 	user_name text,
-	created_at timestamp,
+	created_at timeuuid,
 	blog_text text,
 	ip_address inet,
 	useragent text,
@@ -14,7 +13,11 @@ CREATE TABLE IF NOT EXISTS blog_records (
 ) WITH CLUSTERING ORDER BY (created_at DESC);
 
 //INSERT INTO blog_records 
-//	(record_id, user_name, created_at, blog_text, ip_address, useragent) 
-//VALUES (uuid(), 'test', toTimestamp(now()), 'test', '192.168.1.1', 'Mozilla');
+//	(user_name, created_at, blog_text, ip_address, useragent) 
+//VALUES ('test', now(), 'test1', '192.168.1.1', 'Mozilla1');
 
-//SELECT * FROM blog_records WHERE user_name = 'test';
+
+
+//SELECT user_name, created_at, blog_text, ip_address, useragent, toTimestamp(created_at) FROM blog_records WHERE user_name = 'test' and created_at = 762b3510-ff15-11e9-a5a4-6d2c86545d91;
+
+//SELECT user_name FROM blog_records; 
