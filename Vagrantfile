@@ -9,6 +9,8 @@ Vagrant.configure("2") do |config|
 	  v.memory = 2048
 	  v.cpus = 2
   end
+
+  config.vm.network "forwarded_port", guest: 9042, host: 9042
   
   config.vm.provision "docker",
 	images: ["strapdata/elassandra", "kibana:7.4.0"]
@@ -23,6 +25,6 @@ Vagrant.configure("2") do |config|
     ansible.playbook = "playbook.yml"
   end
 
-  config.vm.network "forwarded_port", guest: 9042, host: 9042
+   config.vm.provision "shell", inline: "docker container start elassandra", run: 'always'
 
 end
