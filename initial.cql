@@ -1,5 +1,5 @@
 CREATE KEYSPACE IF NOT EXISTS microblog
-    WITH replication = {'class': 'SimpleStrategy', 'replication_factor' : 1};
+    WITH replication = {'class': 'NetworkTopologyStrategy', 'DC1' : '1'};
 
 USE microblog;
 
