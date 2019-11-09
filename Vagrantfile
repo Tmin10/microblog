@@ -11,9 +11,10 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.network "forwarded_port", guest: 9042, host: 9042
-  
+  config.vm.network "forwarded_port", guest: 9200, host: 9200
+
   config.vm.provision "docker",
-	images: ["strapdata/elassandra", "kibana:7.4.0"]
+	images: ["strapdata/elassandra"]
 	
   config.vm.provision "shell", inline: <<-SHELL
     apt-get update
