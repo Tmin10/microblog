@@ -9,7 +9,7 @@ VALUES ('{}', minTimeuuid('{}'), '{}', '127.0.0.1', 'None');\n"""
 
 
 def main():
-    files = [f for f in glob.glob("./*.xml")]
+    files = [f for f in glob.glob("/vagrant/twitter_accounts/*.xml")]
     statuses = []
     for f in files:
         tree = ET.parse(f)
@@ -30,7 +30,7 @@ def clean_creator_name(name):
 
 
 def save_cassandra_dump(statuses):
-    f = open("out.cql", "w+", encoding="utf8")
+    f = open("/vagrant/initial.cql", "a", encoding="utf8")
     for status in statuses:
         f.write(
             INSERT_TEMPLATE.format(

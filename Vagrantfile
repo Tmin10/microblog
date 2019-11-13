@@ -18,13 +18,20 @@ Vagrant.configure("2") do |config|
 	
   config.vm.provision "shell", inline: <<-SHELL
     apt-get update
-    apt install -y python-pip
-	pip install docker
+    apt install -y python3-pip
+	pip3 install -r /vagrant/requirements.txt
+	python3 /vagrant/twitter_accounts/runme.py
   SHELL
   
   config.vm.provision "ansible_local" do |ansible|
     ansible.playbook = "playbook.yml"
   end
+
+  config.vm.provision "shell", inline: <<-SHELL
+    docker cp /vagrant/initial.cql elassandra:/tmp/
+    docker exec -i elassandra cqlsh -f /tmp/initial.cql
+    curl -XPUT -H 'Content-Type: application/json' http://localhost:9200/microblog -d'{"mappings":{"blog_records":{"discover":".*"}}}'
+  SHELL
 
    config.vm.provision "shell", inline: "docker container start elassandra", run: 'always'
 
