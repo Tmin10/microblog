@@ -24,10 +24,13 @@ Vagrant.configure("2") do |config|
   SHELL
   
   config.vm.provision "ansible_local" do |ansible|
+    ansible.compatibility_mode = '2.0'
     ansible.playbook = "playbook.yml"
+    ansible.extra_vars = { ansible_python_interpreter:"/usr/bin/python3" }
   end
 
   config.vm.provision "shell", inline: <<-SHELL
+    sleep 60
     docker cp /vagrant/initial.cql elassandra:/tmp/
     docker exec -i elassandra cqlsh -f /tmp/initial.cql
     curl -XPUT -H 'Content-Type: application/json' http://localhost:9200/microblog -d'{"mappings":{"blog_records":{"discover":".*"}}}'
